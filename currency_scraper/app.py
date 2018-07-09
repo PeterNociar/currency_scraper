@@ -22,17 +22,17 @@ def register_extensions(app):
     """Register Flask extensions."""
     db.init_app(app)
     migrate.init_app(app, db)
-    scheduler.init_app(app)
     return None
 
 
 def register_commands(app):
     """Register Click commands."""
     app.cli.add_command(commands.test)
-    app.cli.add_command(commands.lint)
+    app.cli.add_command(commands.run_scheduler)
 
 
 if __name__ == '__main__':
     app = create_app(DevConfig)
+
     scheduler.start()
     app.run()

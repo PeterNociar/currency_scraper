@@ -36,22 +36,25 @@ class Config(object):
                 'day_of_week': '1-5',
             }
         },
-        {
-            'id': 'heartbeat',
-            'func': 'currency_scraper.tasks:heartbeat',
-            'trigger': {
-                'type': 'interval',
-                'seconds': 5,
-            }
-        }
+        # {
+        #     'id': 'heartbeat',
+        #     'func': 'currency_scraper.tasks:heartbeat',
+        #     'trigger': {
+        #         'type': 'interval',
+        #         'seconds': 5,
+        #     }
+        # }
     ]
 
-    SCHEDULER_JOBSTORES = {'default': SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)}
+    SCHEDULER_JOBSTORES = {
+        'default': SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)
+    }
 
     SCHEDULER_EXECUTORS = {
         'default': {
-            'type': 'threadpool', 'max_workers': 20
-        }
+            'max_workers': 2,
+            'type': 'threadpool',
+        },
     }
 
     SCHEDULER_JOB_DEFAULTS = {
@@ -71,7 +74,7 @@ class DevConfig(Config):
     """Development configuration."""
 
     ENV = 'dev'
-    DEBUG = True
+    DEBUG = False
     DB_NAME = 'currency_scraper_dev.db'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'SQLALCHEMY_DATABASE_URI', f'sqlite:///{os.path.join(Config.PROJECT_ROOT, DB_NAME)}'
@@ -82,7 +85,7 @@ class TestConfig(Config):
     """Test configuration."""
 
     TESTING = True
-    DEBUG = True
+    DEBUG = False
     DB_NAME = 'currency_scraper_test.db'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'SQLALCHEMY_DATABASE_URI', f'sqlite:///{os.path.join(Config.PROJECT_ROOT, DB_NAME)}'
