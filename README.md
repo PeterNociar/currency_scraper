@@ -6,10 +6,10 @@ Python 3.6+
 ### Instalation
 *from source*
 
-\>pip install -r requirements.txt
-\>export FLASK_APP="currency_scraper.app"
-\>export FLASK_ENV=production
-\>flask db upgrade
+\>pip install -r requirements.txt  
+\>export FLASK_APP="currency_scraper.app"  
+\>export FLASK_ENV=production  
+\>flask db upgrade  
 
 
 ### Tests
