@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+""" Conftest"""
+
 import pytest
 
 from currency_scraper.app import create_app

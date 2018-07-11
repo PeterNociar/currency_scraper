@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
+""" API Clients """
+
 from collections.abc import Mapping
 from json import JSONDecodeError
-import logging
 import requests
-
-logger = logging.getLogger(__name__)
+from flask.globals import current_app as app
 
 
 class ResponseDict(Mapping):
@@ -44,6 +45,7 @@ class ResponseDict(Mapping):
 
     @property
     def error(self):
+        """ Error part of response """
         return self._error_dict
 
     def __str__(self):
@@ -77,7 +79,7 @@ class FixerApiClient:
         if response.status_code in (200, 201, 202, 203, 204):
             try:
                 json_resp = response.json()
-                logger.info(f'{cls.__name__} response : {resp}')
+                app.logger.info(f'{cls.__name__} response : {json_resp}')
                 return ResponseDict(json_resp)
             except JSONDecodeError:
                 return ResponseDict({})
@@ -96,4 +98,5 @@ class FixerApiClient:
         """
 
         url = f'{self.host}{date}'
+        app.logger.info(f'calling {url} with access_key {self.api_key}')
         return self.check_error_response(requests.get(url=url, params={'access_key': self.api_key}))
